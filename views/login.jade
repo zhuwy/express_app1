@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1 Log in
+  p Welcome  #{title} to Log in!
+
+  form(method='POST' action='/login')
+    table(align='center' border='1' cellpadding="10")
+      tr
+        th 用户名
+        td: input(id='un' name='username' type='text' placeholder='username')
+      tr
+        th 密码
+        td: input(name='password' type='password' placeholder='password')
+      tr
+        td: input(type='reset' value='重置')
+        td: input(type='submit' valut='登录')
+
+  script(src='/javascripts/jquery-2.1.4.min.js')
+
+  script.
+    $.ajax({
+      method:'POST',
+      url:'/login',
+      data:{
+        username:'zwy',
+        password:'1'}}).done(function(data){
+    console.log(data);
+    });
+  script.
+    $('#un').on('keyup',function(){
+      $.ajax({
+        method:'GET',
+        url: '/login/repeat',
+        data:{
+        name:$('#un').val()
+      }
+      }).done(function(data){
+        if(data.repeat){
+          alert('repeat!');
+      }
+    });
+    });
+  
